@@ -1,0 +1,49 @@
+{
+  "name": "hackathon-ai-tinkerer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal TypeScript Express app for Google Cloud Run",
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build",
+    "build:server": "tsc -p tsconfig.json",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "tsx watch src/index.ts",
+    "dev:client": "vite",
+    "start": "node dist/index.js",
+    "deploy": "gcloud run deploy ai-tinkerer-hackathon --source . --region europe-west4 --allow-unauthenticated --set-env-vars GOOGLE_GENAI_API_KEY=$GOOGLE_GENAI_API_KEY,ADK_MODEL=gemini-2.5-flash-lite",
+    "feedback:setup": "node scripts/bigquery-feedback.mjs setup",
+    "feedback:sample": "node scripts/bigquery-feedback.mjs sample",
+    "feedback:profile": "node scripts/bigquery-feedback.mjs profile",
+    "rag:setup": "node scripts/vertex-rag.mjs setup",
+    "rag:retrieve": "node scripts/vertex-rag.mjs retrieve"
+  },
+  "dependencies": {
+    "@google/adk": "^0.5.0",
+    "@google/genai": "^1.46.0",
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "dotenv": "^17.3.1",
+    "express": "^5.1.0",
+    "google-auth-library": "^10.4.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.5.2",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "concurrently": "^9.2.1",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  }
+}
